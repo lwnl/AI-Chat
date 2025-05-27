@@ -9,11 +9,7 @@ import { useUser } from "@clerk/nextjs";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [model, setModel] = useState("deepseek-v3");
-
-  const handleChangeModel = () => {
-    setModel(model === "deepseek-v3" ? "deepseek-r1" : "deepseek-v3");
-  };
+  const [model, setModel] = useState("gpt-4o");
 
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -67,7 +63,7 @@ export default function Home() {
                 }`}
                 // onClick={handleChangeModel}
               >
-                <p className="text-sm">ChatGPT</p>
+                <p className="text-sm">ChatGPT-4o</p>
               </div>
             </div>
             <div
