@@ -5,7 +5,7 @@ import { after } from "node:test";
 export const chatsTable = pgTable("chats", {
   id: serial("id").primaryKey(),
   userId: text("user_id").notNull(),
-  title: text("user_id").notNull(),
+  title: text("title").notNull(),
   model: text("model").notNull()
 })
 
