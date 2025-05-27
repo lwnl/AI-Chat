@@ -67,7 +67,7 @@ export default function Home() {
               </div>
             </div>
             <div
-              className="flex items-center justify-center border-2 border-black mr-4 p-1 rounded-full"
+              className="flex items-center cursor-pointer justify-center border-2 border-black mr-4 p-1 rounded-full"
               onClick={handleSubmit}
             >
               <EastIcon></EastIcon>
