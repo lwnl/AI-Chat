@@ -2,6 +2,7 @@
   "name": "deepseek",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -21,6 +22,7 @@
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.43.1",
     "next": "15.3.2",
+    "openai": "^4.103.0",
     "postgres": "^3.4.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
