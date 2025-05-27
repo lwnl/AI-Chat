@@ -43,6 +43,7 @@ export default function Page() {
     },
     initialMessages: previousMessages?.data
   });
+  
   const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
