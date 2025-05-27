@@ -67,7 +67,7 @@ export default function Home() {
                 }`}
                 onClick={handleChangeModel}
               >
-                <p className="text-sm">Deepseek（R1）</p>
+                <p className="text-sm">ChatGPT</p>
               </div>
             </div>
             <div

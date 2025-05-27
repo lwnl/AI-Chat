@@ -8,7 +8,7 @@ export const maxDuration = 30;
 
 const deepseek = createDeepSeek({
   apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: process.env.BACE_URL
+  baseURL: process.env.BASE_URL
 })
 
 export async function POST(req: Request) {
