@@ -14,6 +14,11 @@ https://ai-sdk.dev/
 
 安装deepseek 依赖
 https://ai-sdk.dev/providers/ai-sdk-providers/deepseek
+DEEPSEEK API KEY
+https://api-docs.deepseek.com/zh-cn/
 
 聊天机器人前端
 https://ai-sdk.dev/docs/ai-sdk-ui/chatbot
+
+supabase：存储聊天记录
+https://supabase.com/dashboard/project/jihdqabrncauremjhdid?showConnect=true
