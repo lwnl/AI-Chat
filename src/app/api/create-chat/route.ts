@@ -14,4 +14,6 @@ export async function POST(req: Request) {
       return new Response(JSON.stringify({ error: "Failed to create chat" }), { status: 500 });
     }
   }
+
+  return new Response(null, {status:200})
 }

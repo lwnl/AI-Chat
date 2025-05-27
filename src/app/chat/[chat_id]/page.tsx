@@ -2,21 +2,71 @@
 
 import { useChat } from "@ai-sdk/react";
 import { useEffect, useRef, useState } from "react";
-import EastIcon  from "@mui/icons-material/East"; 
+import EastIcon from "@mui/icons-material/East";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function Page() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({});
-  const endRef = useRef<HTMLDivElement | null>(null);
-  const[model, setModel] = useState('deepseek-v3')
+  const { chat_id } = useParams();
+
+  const { data: chat } = useQuery({
+    queryKey: ["chat", chat_id],
+    queryFn: () => {
+      return axios.post(`/api/get-chat`, {
+        chat_id,
+      });
+    },
+  });
+
+  const { data: previousMessages } = useQuery({
+    queryKey: ["messages", chat_id],
+    queryFn: () => {
+      return axios.post(`/api/get-messages`, {
+        chat_id,
+        chat_user_id: chat?.data?.userId
+      });
+    },
+    enabled: !!chat?.data?.id
+  });
+
+  const [model, setModel] = useState("deepseek-v3");
   const handleChangeModel = () => {
-    setModel(model === 'deepseek-v3' ? 'deepseek-r1' : 'deepseek-v3')
-  }
+    setModel(model === "deepseek-v3" ? "deepseek-r1" : "deepseek-v3");
+  };
+
+  const { messages, input, handleInputChange, handleSubmit, append} = useChat({
+    body: {
+      model,
+      chat_id,
+      chat_user_id: chat?.data?.userId,
+    },
+    initialMessages: previousMessages?.data
+  });
+  const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (endRef.current) {
       endRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  const handleFirstMessage = async () => {
+    if (chat?.data?.title && previousMessages?.data?.length === 0) {
+      await append({
+        role: 'user',
+        content: chat?.data.title
+      }), {
+        model,
+        chat_id,
+        chat_user_id: chat?.data?.userId,
+      }
+    }
+  }
+
+  useEffect(() => {
+    handleFirstMessage()
+  }, [chat?.data?.title, previousMessages])
 
   return (
     <div className="flex flex-col h-screen justify-between items-center">
@@ -44,32 +94,33 @@ export default function Page() {
         <div className="h-4" ref={endRef}></div>
       </div>
       {/* 输入框 */}
-       <div className="flex flex-col items-center justify-center mt-4 shadow-lg border-[1px] border-gray-300 h-32 rounded-lg w-2/3">
-          <textarea
-            className="w-full rounded-lg p-3 h-30 focus:outline-none"
-            value={input}
-            onChange={handleInputChange}
-          ></textarea>
-          <div className="flex items-center justify-between w-full h-12 mb-2">
-            <div>
-              <div
-                className={`flex items-center justify-center rounded-lg border-[1px] px-2 py-1 ml-2 cursor-pointer ${
-                  model === "deepseek-r1"
-                    ? "border-blue-300 bg-blue-200"
-                    : "border-gray-300"
-                }`}
-                onClick={handleChangeModel}
-              >
-                <p className="text-sm">深度思考（R1）</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center border-2 border-black mr-4 p-1 rounded-full"
-            onClick={handleSubmit}
+      <div className="flex flex-col items-center justify-center mt-4 shadow-lg border-[1px] border-gray-300 h-32 rounded-lg w-2/3">
+        <textarea
+          className="w-full rounded-lg p-3 h-30 focus:outline-none"
+          value={input}
+          onChange={handleInputChange}
+        ></textarea>
+        <div className="flex items-center justify-between w-full h-12 mb-2">
+          <div>
+            <div
+              className={`flex items-center justify-center rounded-lg border-[1px] px-2 py-1 ml-2 cursor-pointer ${
+                model === "deepseek-r1"
+                  ? "border-blue-300 bg-blue-200"
+                  : "border-gray-300"
+              }`}
+              onClick={handleChangeModel}
             >
-              <EastIcon></EastIcon>
+              <p className="text-sm">Deepseek（R1）</p>
             </div>
           </div>
+          <div
+            className="flex items-center justify-center border-2 border-black mr-4 p-1 rounded-full"
+            onClick={handleSubmit}
+          >
+            <EastIcon></EastIcon>
+          </div>
         </div>
+      </div>
     </div>
   );
 }

@@ -40,7 +40,7 @@ export const getChat = async (chatId: number, userId: string) => {
   }
 }
 
-export const getchats = async (userId: string) => {
+export const getChats = async (userId: string) => {
   try {
     const chats = await db
       .select()

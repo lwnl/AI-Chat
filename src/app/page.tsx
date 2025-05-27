@@ -67,7 +67,7 @@ export default function Home() {
                 }`}
                 onClick={handleChangeModel}
               >
-                <p className="text-sm">深度思考（R1）</p>
+                <p className="text-sm">Deepseek（R1）</p>
               </div>
             </div>
             <div
