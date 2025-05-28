@@ -9,11 +9,7 @@ import { useUser } from "@clerk/nextjs";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [model, setModel] = useState("deepseek-v3");
-
-  const handleChangeModel = () => {
-    setModel(model === "deepseek-v3" ? "deepseek-r1" : "deepseek-v3");
-  };
+  const [model, setModel] = useState("gpt-4o");
 
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -46,6 +42,10 @@ export default function Home() {
     createChat();
   };
 
+  const handleChangeModel = () => {
+    setModel(model === "deepseek-v3" ? "gpt-4o" : "deepseek-v3");
+  };
+
   return (
     <div className="h-screen flex flex-col items-center">
       <div className="h-1/5"></div>
@@ -67,11 +67,13 @@ export default function Home() {
                 }`}
                 // onClick={handleChangeModel}
               >
-                <p className="text-sm">ChatGPT</p>
+                <p className="text-sm">
+                  {model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
+                </p>
               </div>
             </div>
             <div
-              className="flex items-center justify-center border-2 border-black mr-4 p-1 rounded-full"
+              className="flex items-center cursor-pointer justify-center border-2 border-black mr-4 p-1 rounded-full"
               onClick={handleSubmit}
             >
               <EastIcon></EastIcon>
