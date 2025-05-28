@@ -32,7 +32,7 @@ export default function Page() {
 
   const [model, setModel] = useState("gpt-4o");
   const handleChangeModel = () => {
-    setModel(model === "deepseek-v3" ? "deepseek-r1" : "deepseek-v3");
+    setModel(model === "deepseek-v3" ? "gpt-4o" : "deepseek-v3");
   };
 
   const { messages, input, handleInputChange, handleSubmit, append} = useChat({
@@ -109,9 +109,9 @@ export default function Page() {
                   ? "border-blue-300 bg-blue-200"
                   : "border-gray-300"
               }`}
-              // onClick={handleChangeModel}
+              onClick={handleChangeModel}
             >
-              <p className="text-sm">ChatGPT-4o</p>
+              <p className="text-sm">{model==='gpt-4o' ? 'ChatGPT-4o' : 'DeepSeek-V3'}</p>
             </div>
           </div>
           <div

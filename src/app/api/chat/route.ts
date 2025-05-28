@@ -62,24 +62,20 @@ export async function POST(req: Request) {
   const searchResults = await searchLatestInfo(lastMessage.content);
 
   // 将搜索结果整合进system prompt，辅助模型回答
-  const systemPrompt = `
-You are a helpful assistant based on OpenAI GPT-4o model.
-Use the following latest information to answer the user's questions accurately:
-
-Latest Information:
-${searchResults}
-`;
+  const systemPrompt = model === 'gpt-4o'
+    ? `You are a helpful assistant based on OpenAI GPT-4o model.Use the following latest information to answer the user's questions accurately: Latest Information: ${searchResults}`
+    : 'I am DeepSeek-V3, an advanced AI language model developed by DeepSeek (深度求索). My purpose is to assist with a wide range of tasks, including answering questions, generating text, analyzing data, coding, and much more!'
 
   const result = streamText({
-    model: model.startsWith('gpt-')
-      ? openai(model as 'gpt-4o')
-      : deepseek(model),
-    system: systemPrompt,
-    messages,
-    onFinish: async (res) => {
-      await createMessage(chat_id, res.text, 'assistant');
-    }
-  });
+      model: model.startsWith('gpt')
+        ? openai(model)
+        : deepseek('deepseek-chat'),
+      system: systemPrompt,
+      messages,
+      onFinish: async (res) => {
+        await createMessage(chat_id, res.text, 'assistant');
+      }
+    });
 
   return result.toDataStreamResponse();
 }

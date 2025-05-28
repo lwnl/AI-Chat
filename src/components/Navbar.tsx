@@ -24,7 +24,7 @@ const Navbar = () => {
       {/* 顶部标题 */}
       <div>
         <div className="flex items-center justify-center">
-          <p className="font-bold text-2xl">ChatGPT-4o</p>
+          <p className="font-bold text-2xl">GPT / DeepSeek</p>
         </div>
 
         <div

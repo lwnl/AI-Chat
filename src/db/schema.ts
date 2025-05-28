@@ -1,5 +1,4 @@
 import { integer, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
-import { after } from "node:test";
 
 
 export const chatsTable = pgTable("chats", {
