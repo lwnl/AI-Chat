@@ -6,9 +6,11 @@ import EastIcon from "@mui/icons-material/East";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { usePreferredModel } from "@/hooks/usePreferredModel";
 
 export default function Page() {
   const { chat_id } = useParams();
+  const { model, toggleModel } = usePreferredModel();
 
   const { data: chat } = useQuery({
     queryKey: ["chat", chat_id],
@@ -30,10 +32,6 @@ export default function Page() {
     enabled: !!chat?.data?.id
   });
 
-  const [model, setModel] = useState("gpt-4o");
-  const handleChangeModel = () => {
-    setModel(model === "deepseek-v3" ? "gpt-4o" : "deepseek-v3");
-  };
 
   const { messages, input, handleInputChange, handleSubmit, append} = useChat({
     body: {
@@ -109,7 +107,7 @@ export default function Page() {
                   ? "border-blue-300 bg-blue-200"
                   : "border-gray-300"
               }`}
-              onClick={handleChangeModel}
+              onClick={toggleModel}
             >
               <p className="text-sm">{model==='gpt-4o' ? 'ChatGPT-4o' : 'DeepSeek-V3'}</p>
             </div>

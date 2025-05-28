@@ -6,10 +6,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import { usePreferredModel } from "@/hooks/usePreferredModel";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [model, setModel] = useState("gpt-4o");
+  const { model, toggleModel } = usePreferredModel();
 
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -42,10 +43,6 @@ export default function Home() {
     createChat();
   };
 
-  const handleChangeModel = () => {
-    setModel(model === "deepseek-v3" ? "gpt-4o" : "deepseek-v3");
-  };
-
   return (
     <div className="h-screen flex flex-col items-center">
       <div className="h-1/5"></div>
@@ -65,10 +62,10 @@ export default function Home() {
                     ? "border-blue-300 bg-blue-200"
                     : "border-gray-300"
                 }`}
-                onClick={handleChangeModel}
+                onClick={toggleModel}
               >
                 <p className="text-sm">
-                  {model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
+                  当前模型：{model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
                 </p>
               </div>
             </div>
