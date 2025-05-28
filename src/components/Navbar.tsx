@@ -10,6 +10,7 @@ const Navbar = () => {
   const { user, isLoaded } = useUser();
   const router = useRouter();
   const pathname = usePathname();
+  console.log("pathname:", pathname);
   const { signOut } = useClerk();
 
   const { data: chats } = useQuery({
@@ -50,8 +51,10 @@ const Navbar = () => {
               onClick={() => router.push(`/chat/${chat._id}`)}
             >
               <p
-                className={`font-extralight text-sm line-clamp-1 ${
-                  pathname === `/chat/${chat.id as string}` ? "text-blue-700" : ""
+                className={`line-clamp-1 ${
+                  pathname === `/chat/${chat._id as string}`
+                    ? "font-bold"
+                    : "font-extralight text-sm"
                 }`}
               >
                 {chat?.title}

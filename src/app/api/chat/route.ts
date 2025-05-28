@@ -61,20 +61,24 @@ export async function POST(req: Request) {
   const searchResults = await searchLatestInfo(lastMessage.content);
 
   // 将搜索结果整合进system prompt，辅助模型回答
+  const prefix = model.startsWith('gpt') ? 'ChatGPT 回答：' : 'DeepSeek 回答：';
+
   const systemPrompt = model === 'gpt-4o'
-    ? `You are a helpful assistant based on OpenAI GPT-4o model.Use the following latest information to answer the user's questions accurately: Latest Information: ${searchResults}`
-    : 'I am DeepSeek-V3, an advanced AI language model developed by DeepSeek (深度求索). My purpose is to assist with a wide range of tasks, including answering questions, generating text, analyzing data, coding, and much more!'
+    ? `You are a helpful assistant based on OpenAI GPT-4o model. When answering, please start your reply with "${prefix}". Use the following latest information to answer user's questions accurately: ${searchResults}`
+    : `I am DeepSeek-V3, an advanced AI language model. When answering, please start your reply with "${prefix}". My purpose is to assist with many tasks including answering questions, generating text, etc.`;
 
   const result = streamText({
-      model: model.startsWith('gpt')
-        ? openai(model)
-        : deepseek('deepseek-chat'),
-      system: systemPrompt,
-      messages,
-      onFinish: async (res) => {
-        await createMessage(chat_id, res.text, 'assistant');
-      }
-    });
+    model: model.startsWith('gpt')
+      ? openai(model)
+      : deepseek('deepseek-chat'),
+    system: systemPrompt,
+    messages,
+    onFinish: async (res) => {
+      const prefix = model.startsWith('gpt') ? 'ChatGPT 回答：' : 'DeepSeek 回答：';
+      const contentWithPrefix = `${prefix}${res.text}`;
+      await createMessage(chat_id, contentWithPrefix, 'assistant');
+    }
+  });
 
   return result.toDataStreamResponse();
 }
