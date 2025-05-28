@@ -9,7 +9,7 @@ import { createMessage } from '@/db/lib/db';
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY!;
 const CX = process.env.GOOGLE_CX!;
 
-export async function searchLatestInfo(query: string): Promise<string> {
+async function searchLatestInfo(query: string): Promise<string> {
   try {
     const res = await axios.get('https://www.googleapis.com/customsearch/v1', {
       params: {
