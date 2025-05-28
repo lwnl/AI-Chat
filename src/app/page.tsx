@@ -65,7 +65,7 @@ export default function Home() {
                     ? "border-blue-300 bg-blue-200"
                     : "border-gray-300"
                 }`}
-                // onClick={handleChangeModel}
+                onClick={handleChangeModel}
               >
                 <p className="text-sm">
                   {model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
