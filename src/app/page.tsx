@@ -22,7 +22,7 @@ export default function Home() {
     mutationFn: async () => {
       return axios.post("/api/create-chat", {
         title: input,
-        model,
+        modelName: model,
       });
     },
     onSuccess: (res) => {

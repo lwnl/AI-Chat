@@ -9,39 +9,51 @@ import axios from "axios";
 import { usePreferredModel } from "@/hooks/usePreferredModel";
 
 export default function Page() {
-  const { chat_id } = useParams();
+  const params = useParams();
+  const chat_id =
+    typeof params?.chat_id === "string" ? params.chat_id : undefined;
+
   const { model, toggleModel } = usePreferredModel();
 
   const { data: chat } = useQuery({
     queryKey: ["chat", chat_id],
     queryFn: () => {
-      return axios.post(`/api/get-chat`, {
-        chat_id,
-      });
+      if (!chat_id) throw new Error("No chat_id provided");
+      return axios.post("/api/get-chat", { chat_id });
     },
+    enabled: !!chat_id,
   });
 
-  const { data: previousMessages } = useQuery({
-    queryKey: ["messages", chat_id],
-    queryFn: () => {
-      return axios.post(`/api/get-messages`, {
-        chat_id,
-        chat_user_id: chat?.data?.userId
-      });
-    },
-    enabled: !!chat?.data?.id
-  });
+  console.log("📋 chat:", chat);
+
+  const messagesQuery = useQuery({
+  queryKey: ["messages", chat_id],
+  queryFn: () => {
+    return axios.post(`/api/get-messages`, {
+      chat_id,
+      chat_user_id: chat?.data?.userId,
+    });
+  },
+  enabled: !!chat?.data?._id,
+});
+const previousMessages = messagesQuery.data;
+
+// 🔍 打印所有相关信息
+console.log("✅ messagesQuery status:", messagesQuery.status);
+console.log("📦 previousMessages (raw):", previousMessages);
+console.log("📨 previousMessages?.data:", previousMessages?.data);
 
 
-  const { messages, input, handleInputChange, handleSubmit, append} = useChat({
+  const { messages, input, handleInputChange, handleSubmit, append } = useChat({
     body: {
       model,
       chat_id,
       chat_user_id: chat?.data?.userId,
     },
-    initialMessages: previousMessages?.data
+    initialMessages: previousMessages?.data,
   });
-  
+
+
   const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -53,19 +65,20 @@ export default function Page() {
   const handleFirstMessage = async () => {
     if (chat?.data?.title && previousMessages?.data?.length === 0) {
       await append({
-        role: 'user',
-        content: chat?.data.title
-      }), {
-        model,
-        chat_id,
-        chat_user_id: chat?.data?.userId,
-      }
+        role: "user",
+        content: chat?.data.title,
+      }),
+        {
+          model,
+          chat_id,
+          chat_user_id: chat?.data?.userId,
+        };
     }
-  }
+  };
 
   useEffect(() => {
-    handleFirstMessage()
-  }, [chat?.data?.title, previousMessages])
+    handleFirstMessage();
+  }, [chat?.data?.title, previousMessages]);
 
   return (
     <div className="flex flex-col h-screen justify-between items-center">
@@ -109,7 +122,9 @@ export default function Page() {
               }`}
               onClick={toggleModel}
             >
-              <p className="text-sm">当前模型：{model==='gpt-4o' ? 'ChatGPT-4o' : 'DeepSeek-V3'}</p>
+              <p className="text-sm">
+                当前模型：{model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
+              </p>
             </div>
           </div>
           <div

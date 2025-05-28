@@ -12,5 +12,4 @@ export async function POST(req: Request) {
 
   const chat = await getChat(chat_id, userId)
   return new Response(JSON.stringify(chat), { status: 200 })
-
 }

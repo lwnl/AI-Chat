@@ -48,7 +48,6 @@ const openai = createOpenAI({
 
 export async function POST(req: Request) {
   const { messages, model, chat_id, chat_user_id } = await req.json();
-  console.log('当前的模型是：', model);
 
   const { userId } = await auth();
   if (!userId || userId !== chat_user_id) {

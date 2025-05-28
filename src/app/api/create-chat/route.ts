@@ -2,12 +2,12 @@ import { createChat } from "@/db/lib/db";
 import { auth } from "@clerk/nextjs/server"
 
 export async function POST(req: Request) {
-  const { title, model } = await req.json()
+  const { title, modelName } = await req.json()
 
   const { userId } = await auth()
   if (userId) {
     try {
-      const newChat = await createChat(title, userId, model);
+      const newChat = await createChat(title, userId, modelName);
       return new Response(JSON.stringify({ id: newChat?.id }), { status: 200 });
     } catch (error) {
       console.error("Error creating chat:", error);

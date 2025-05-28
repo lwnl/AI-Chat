@@ -46,12 +46,12 @@ const Navbar = () => {
           {chats?.map((chat: IChat) => (
             <div
               className="w-full h-10 cursor-pointer"
-              key={chat.id}
-              onClick={() => router.push(`/chat/${chat.id}`)}
+              key={chat._id as string}
+              onClick={() => router.push(`/chat/${chat._id}`)}
             >
               <p
                 className={`font-extralight text-sm line-clamp-1 ${
-                  pathname === `/chat/${chat.id}` ? "text-blue-700" : ""
+                  pathname === `/chat/${chat.id as string}` ? "text-blue-700" : ""
                 }`}
               >
                 {chat?.title}

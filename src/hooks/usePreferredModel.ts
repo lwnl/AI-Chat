@@ -9,15 +9,22 @@ export const usePreferredModel = () => {
     queryKey: ["initialModel"],
     queryFn: async () => {
       const res = await axios.post("/api/get-latest-model");
-      return res.data.model as string;
+
+      const modelName = res.data?.modelName;
+      if (!modelName) {
+        throw new Error("No modelName returned from /api/get-latest-model");
+      }
+
+      return modelName;
     },
+    retry: false, // 可选，避免无限重试
   });
 
   useEffect(() => {
     console.log('preModel:', preModel)
     const storedModel = localStorage.getItem("preferredModel");
     setModel(storedModel || preModel || null);
-     if (!storedModel && preModel) {
+    if (!storedModel && preModel) {
       localStorage.setItem("preferredModel", preModel);
     }
   }, [preModel]);
