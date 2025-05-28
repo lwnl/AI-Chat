@@ -1,4 +1,4 @@
-import { getChat } from "@/db"
+import { getChat } from "@/db/lib/db"
 import { auth } from "@clerk/nextjs/server"
 import { unauthorized } from "next/navigation"
 

@@ -1,4 +1,4 @@
-import { getMessagesByChatId } from "@/db"
+import { getMessagesByChatId } from "@/db/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { unauthorized } from "next/navigation"
 export async function POST(req: Request) {

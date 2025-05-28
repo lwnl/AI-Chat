@@ -14,8 +14,12 @@ export const usePreferredModel = () => {
   });
 
   useEffect(() => {
+    console.log('preModel:', preModel)
     const storedModel = localStorage.getItem("preferredModel");
     setModel(storedModel || preModel || null);
+     if (!storedModel && preModel) {
+      localStorage.setItem("preferredModel", preModel);
+    }
   }, [preModel]);
 
   useEffect(() => {

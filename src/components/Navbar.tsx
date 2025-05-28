@@ -1,6 +1,5 @@
 "use client";
-
-import { chatModel } from "@/db/schema";
+import type { IChat } from "@/db/models/Chat";
 import { useUser, useClerk } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -8,16 +7,22 @@ import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 const Navbar = () => {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const router = useRouter();
   const pathname = usePathname();
   const { signOut } = useClerk();
 
   const { data: chats } = useQuery({
     queryKey: ["chats"],
-    queryFn: () => axios.post("/api/get-chats"),
-    enabled: !!user?.id,
+    queryFn: async () => {
+      const res = await axios.post("/api/get-chats");
+      return res.data; // 👈 提前返回真正的数据
+    },
+    enabled: isLoaded && !!user?.id,
   });
+
+  console.log("chats:", chats);
+  console.log("user:", user);
 
   return (
     <div className="h-screen bg-gray-50 flex flex-col justify-between p-4">
@@ -38,7 +43,7 @@ const Navbar = () => {
 
         {/* 会话目录 */}
         <div className="flex flex-col items-center justify-center gap-2 p-6">
-          {chats?.data?.map((chat: chatModel) => (
+          {chats?.map((chat: IChat) => (
             <div
               className="w-full h-10 cursor-pointer"
               key={chat.id}

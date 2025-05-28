@@ -1,10 +1,10 @@
-import { createMessage } from '@/db';
 import { createDeepSeek } from '@ai-sdk/deepseek';
 import { auth } from '@clerk/nextjs/server';
 import { streamText } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 
 import axios from 'axios';
+import { createMessage } from '@/db/lib/db';
 
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY!;
 const CX = process.env.GOOGLE_CX!;

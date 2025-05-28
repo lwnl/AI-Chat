@@ -1,4 +1,4 @@
-import { getChats } from "@/db";
+import { getChats } from "@/db/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
