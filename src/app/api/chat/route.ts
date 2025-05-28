@@ -5,37 +5,10 @@ import { createOpenAI } from '@ai-sdk/openai';
 
 import axios from 'axios';
 import { createMessage } from '@/db/lib/db';
+import { searchLatestInfo } from '@/db/lib/search';
 
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY!;
 const CX = process.env.GOOGLE_CX!;
-
-async function searchLatestInfo(query: string): Promise<string> {
-  try {
-    const res = await axios.get('https://www.googleapis.com/customsearch/v1', {
-      params: {
-        key: GOOGLE_API_KEY,
-        cx: CX,
-        q: query,
-        num: 5, // 返回前5条结果
-      },
-    });
-
-    if (!res.data.items || res.data.items.length === 0) {
-      return '未找到相关最新信息。';
-    }
-
-    // 拼接前5条搜索结果的标题和简短描述
-    const snippets = res.data.items
-      .map((item: any) => `- ${item.title}: ${item.snippet}`)
-      .join('\n');
-
-    return `根据最新搜索，以下是相关信息摘要：\n${snippets}`;
-  } catch (error) {
-    console.error('Google Custom Search 调用失败:', error);
-    return '搜索服务暂时不可用。';
-  }
-}
-export const maxDuration = 30;
 
 const deepseek = createDeepSeek({
   apiKey: process.env.DEEPSEEK_API_KEY,
