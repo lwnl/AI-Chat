@@ -29,8 +29,7 @@ export const createMessage = async (chatId: string, content: string, role: strin
 
 export const getMessagesByChatId = async (chatId: string) => {
   await connectToDatabase();
-  const chat_id = new ObjectId(chatId)
-  const messages = await Message.find({ chatId: chat_id }).sort({ createdAt: 1 });
-  console.log("messages 后台：",messages)
+  // const chat_id = new ObjectId(chatId)
+  const messages = await Message.find({ chatId }).sort({ createdAt: 1 });
   return messages;
 };
