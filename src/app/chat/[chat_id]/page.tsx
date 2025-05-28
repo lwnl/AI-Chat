@@ -24,24 +24,16 @@ export default function Page() {
     enabled: !!chat_id,
   });
 
-  console.log("📋 chat:", chat);
-
-  const messagesQuery = useQuery({
-  queryKey: ["messages", chat_id],
-  queryFn: () => {
-    return axios.post(`/api/get-messages`, {
-      chat_id,
-      chat_user_id: chat?.data?.userId,
-    });
-  },
-  enabled: !!chat?.data?._id,
-});
-const previousMessages = messagesQuery.data;
-
-// 🔍 打印所有相关信息
-console.log("✅ messagesQuery status:", messagesQuery.status);
-console.log("📦 previousMessages (raw):", previousMessages);
-console.log("📨 previousMessages?.data:", previousMessages?.data);
+  const {data: previousMessages} = useQuery({
+    queryKey: ["messages", chat_id],
+    queryFn: () => {
+      return axios.post(`/api/get-messages`, {
+        chat_id,
+        chat_user_id: chat?.data?.userId,
+      });
+    },
+    enabled: !!chat?.data?._id,
+  });
 
 
   const { messages, input, handleInputChange, handleSubmit, append } = useChat({
@@ -52,7 +44,6 @@ console.log("📨 previousMessages?.data:", previousMessages?.data);
     },
     initialMessages: previousMessages?.data,
   });
-
 
   const endRef = useRef<HTMLDivElement | null>(null);
 
