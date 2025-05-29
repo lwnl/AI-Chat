@@ -6,7 +6,12 @@ import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
-const Navbar = () => {
+type NavbarProps = {
+  menuOpen: boolean;
+  setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Navbar = ({ menuOpen, setMenuOpen }: NavbarProps) => {
   const { user, isLoaded } = useUser();
   const router = useRouter();
   const pathname = usePathname();
@@ -25,6 +30,11 @@ const Navbar = () => {
   console.log("chats:", chats);
   console.log("user:", user);
 
+  const handleCreateNewChat = () => {
+    router.push("/")
+    setMenuOpen(false)
+  }
+
   return (
     <div className="h-screen bg-gray-50 flex flex-col justify-between p-4">
       {/* 顶部标题 */}
@@ -35,7 +45,7 @@ const Navbar = () => {
 
         <div
           className="h-10 flex items-center justify-center mt-4 cursor-pointer"
-          onClick={() => router.push("/")}
+          onClick={handleCreateNewChat}
         >
           <p className="h-full w-2/3 bg-blue-100 rounded-lg flex items-center justify-center font-thin">
             创建新会话
