@@ -78,7 +78,7 @@ export default function Page() {
       <Menu
         className="fixed top-10 left-6 z-50 block sm:hidden"
         onClick={() => {
-          setMenuOpen(true);
+          setMenuOpen((prev) => !prev);
         }}
       />
       {/* 聊天记录 */}

@@ -7,6 +7,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { usePreferredModel } from "@/hooks/usePreferredModel";
+import { Menu } from "lucide-react";
+import { useMenu } from "@/context/MenuContext";
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -16,6 +18,7 @@ export default function Home() {
   const router = useRouter();
 
   const { user } = useUser();
+  const {setMenuOpen} = useMenu()
 
   //Mutations 更新操纵
   const { mutate: createChat } = useMutation({
@@ -45,6 +48,12 @@ export default function Home() {
 
   return (
     <div className="h-screen flex flex-col items-center">
+      <Menu
+        className="fixed top-10 left-6 z-50 block sm:hidden"
+        onClick={() => {
+          setMenuOpen(prev => !prev);
+        }}
+      />
       <div className="h-1/5"></div>
       <div className="w-1/2">
         <p className="text-bold text-2xl text-center">有什么可以帮您的吗？</p>
