@@ -31,9 +31,9 @@ const Navbar = ({ menuOpen, setMenuOpen }: NavbarProps) => {
   console.log("user:", user);
 
   const handleCreateNewChat = () => {
-    router.push("/")
-    setMenuOpen(false)
-  }
+    router.push("/");
+    setMenuOpen(false);
+  };
 
   return (
     <div className="h-screen bg-gray-50 flex flex-col justify-between p-4">
@@ -58,7 +58,10 @@ const Navbar = ({ menuOpen, setMenuOpen }: NavbarProps) => {
             <div
               className="w-full h-10 cursor-pointer"
               key={chat._id as string}
-              onClick={() => router.push(`/chat/${chat._id}`)}
+              onClick={() => {
+                router.push(`/chat/${chat._id}`);
+                setMenuOpen(false)
+              }}
             >
               <p
                 className={`line-clamp-1 ${
