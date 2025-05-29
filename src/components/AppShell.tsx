@@ -16,13 +16,17 @@ function ShellLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen">
       <div
-        className={`${
-          menuOpen ? "block" : "hidden"
-        } absolute z-50 top-0 left-0 w-3/4 h-screen bg-gray-50 p-4 sm:static sm:block sm:w-1/5`}
-      >
+  className={`
+    fixed top-0 left-0 z-50 h-full bg-gray-50 p-4
+    w-3/4 sm:w-1/5
+    transition-transform duration-600 ease-in-out
+    ${menuOpen ? "translate-x-0" : "-translate-x-full"} 
+    sm:translate-x-0
+  `}
+>
         <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       </div>
-      <div className="w-full flex-1">{children}</div>
+      <div className="w-full flex-1 sm:pl-[20%]">{children}</div>
     </div>
   );
 }
