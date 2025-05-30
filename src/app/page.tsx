@@ -56,7 +56,7 @@ export default function Home() {
       />
       <div className="h-1/5"></div>
       <div className="w-1/2">
-        <p className="text-bold text-2xl text-center">有什么可以帮您的吗？</p>
+        <p className="text-bold text-2xl text-center">How can I help you?</p>
         <div className="flex flex-col items-center justify-center mt-4 shadow-lg border-[1px] border-gray-300 h-32 rounded-lg">
           <textarea
             className="w-full rounded-lg p-3 h-30 focus:outline-none"
@@ -74,7 +74,7 @@ export default function Home() {
                 onClick={toggleModel}
               >
                 <p className="text-sm">
-                  当前模型：{model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
+                  Current Model: {model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
                 </p>
               </div>
             </div>

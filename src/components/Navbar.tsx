@@ -48,7 +48,7 @@ const Navbar = ({ menuOpen, setMenuOpen }: NavbarProps) => {
           onClick={handleCreateNewChat}
         >
           <p className="h-full w-2/3 bg-blue-100 rounded-lg flex items-center justify-center font-thin">
-            创建新会话
+            Create New Chat
           </p>
         </div>
 
@@ -87,7 +87,7 @@ const Navbar = ({ menuOpen, setMenuOpen }: NavbarProps) => {
             onClick={() => signOut(() => router.push("/sign-in"))}
             className="text-red-600 cursor-pointer border border-red-600 px-3 py-1 rounded hover:bg-red-100 text-sm"
           >
-            退出登录
+            Log out
           </button>
         </div>
       )}

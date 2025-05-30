@@ -123,7 +123,7 @@ export default function Page() {
               onClick={toggleModel}
             >
               <p className="text-sm">
-                当前模型：{model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
+                Current Model: {model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
               </p>
             </div>
           </div>

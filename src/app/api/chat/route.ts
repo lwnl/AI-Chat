@@ -34,7 +34,7 @@ export async function POST(req: Request) {
   const searchResults = await searchLatestInfo(lastMessage.content);
 
   // 将搜索结果整合进system prompt，辅助模型回答
-  const prefix = model.startsWith('gpt') ? 'ChatGPT 回答：' : 'DeepSeek 回答：';
+  const prefix = model.startsWith('gpt') ? 'ChatGPT:' : 'DeepSeek:';
 
   const systemPrompt = model === 'gpt-4o'
     ? `You are a helpful assistant based on OpenAI GPT-4o model. When answering, please start your reply with "${prefix}". Use the following latest information to answer user's questions accurately: ${searchResults}`
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     system: systemPrompt,
     messages,
     onFinish: async (res) => {
-      const prefix = model.startsWith('gpt') ? 'ChatGPT 回答：' : 'DeepSeek 回答：';
+      const prefix = model.startsWith('gpt') ? 'ChatGPT answered：' : 'DeepSeek answered：';
       const contentWithPrefix = `${prefix}${res.text}`;
       await createMessage(chat_id, contentWithPrefix, 'assistant');
     }
