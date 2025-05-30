@@ -19,7 +19,7 @@ export const useMenu = () => {
 };
 
 export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <MenuContext.Provider value={{ menuOpen, setMenuOpen }}>
       {children}
