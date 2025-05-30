@@ -7,11 +7,9 @@ import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { usePreferredModel } from "@/hooks/usePreferredModel";
-import { Menu } from "lucide-react";
-import { useMenu } from "@/context/MenuContext";
+import MobileMenuButton from "@/components/MobileMenuButton";
 
 export default function Page() {
-  const { setMenuOpen } = useMenu();
   const params = useParams();
   const chat_id =
     typeof params?.chat_id === "string" ? params.chat_id : undefined;
@@ -75,12 +73,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col h-screen justify-between items-center">
-      <Menu
-        className="fixed top-10 left-6 z-50 block sm:hidden"
-        onClick={() => {
-          setMenuOpen((prev) => !prev);
-        }}
-      />
+      <MobileMenuButton></MobileMenuButton>
       {/* 聊天记录 */}
       <div className="flex flex-col justify-between flex-1 w-2/3 gap-8 overflow-y-auto">
         <div className="flex flex-col gap-8 flex-1">

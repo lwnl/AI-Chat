@@ -47,7 +47,7 @@ const Navbar = ({ menuOpen, setMenuOpen }: NavbarProps) => {
           className="h-10 flex items-center justify-center mt-4 cursor-pointer"
           onClick={handleCreateNewChat}
         >
-          <p className="h-full w-2/3 bg-blue-100 rounded-lg flex items-center justify-center font-thin">
+          <p className="h-full w-2/3 bg-blue-100 py-2 rounded-lg flex items-center justify-center font-thin">
             Create New Chat
           </p>
         </div>
