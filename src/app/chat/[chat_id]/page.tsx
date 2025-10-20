@@ -53,21 +53,20 @@ export default function Page() {
     }
   }, [messages]);
 
-  const handleFirstMessage = async () => {
-    if (chat?.data?.title && previousMessages?.data?.length === 0) {
-      await append({
-        role: "user",
-        content: chat?.data.title,
-      }),
-        {
-          model,
-          chat_id,
-          chat_user_id: chat?.data?.userId,
-        };
-    }
-  };
-
   useEffect(() => {
+    const handleFirstMessage = async () => {
+      if (chat?.data?.title && previousMessages?.data?.length === 0) {
+        await append({
+          role: "user",
+          content: chat?.data.title,
+        }),
+          {
+            model,
+            chat_id,
+            chat_user_id: chat?.data?.userId,
+          };
+      }
+    };
     handleFirstMessage();
   }, [chat?.data?.title, previousMessages]);
 
@@ -116,7 +115,8 @@ export default function Page() {
               onClick={toggleModel}
             >
               <p className="text-sm">
-                Current Model: {model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
+                Current Model:{" "}
+                {model === "gpt-4o" ? "ChatGPT-4o" : "DeepSeek-V3"}
               </p>
             </div>
           </div>

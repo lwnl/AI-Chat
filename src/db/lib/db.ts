@@ -23,6 +23,7 @@ export const getChats = async (userId: string) => {
 };
 
 export const createMessage = async (chatId: string, content: string, role: string) => {
+  await connectToDatabase();
   const newMessage = new Message({ chatId, content, role });
   return await newMessage.save();
 };
